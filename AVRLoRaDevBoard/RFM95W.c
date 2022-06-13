@@ -9,8 +9,6 @@
 
 void initializeLoRa(){
 	
-	digitalWrite(RFM_SS, 0);
-	
 	//Set to Sleep Mode so we can write registers
 	setSleepMode();
 	
@@ -37,8 +35,6 @@ void initializeLoRa(){
 	
 	//Set TX Power
 	rfmSpiSend(REG_PA_CONFIG, PA_CONFIG);
-	
-	digitalWrite(RFM_SS, 1);
 }
 
 void setPreambleLength(u16 len){
@@ -53,6 +49,7 @@ void setSleepMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
 	if(opModeReg != (OP_MODE_LORA | OP_MODE_SLEEP)){
 		while(1){}
@@ -66,6 +63,7 @@ void setStdbyMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
 	if(opModeReg != (OP_MODE_LORA | OP_MODE_STDBY)){
 		while(1){}
@@ -79,6 +77,7 @@ void setFSTXMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
 	if(opModeReg != (OP_MODE_LORA | OP_MODE_FSTX)){
 		while(1){}
@@ -92,10 +91,9 @@ void setTXMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
-	if(opModeReg != (OP_MODE_LORA | OP_MODE_TX)){
-		while(1){}
-	}
+	//No check for the op mode here because there's an automatic mode change to standby
 }
 
 void setFSRXMode(){
@@ -105,6 +103,7 @@ void setFSRXMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
 	if(opModeReg != (OP_MODE_LORA | OP_MODE_FSRX)){
 		while(1){}
@@ -118,6 +117,7 @@ void setRXMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
 	if(opModeReg != (OP_MODE_LORA | OP_MODE_RXSINGLE)){
 		while(1){}
@@ -131,6 +131,7 @@ void setCADMode(){
 
 	//Verify
 	u8 opModeReg = rfmSpiRecv(REG_OP_MODE);
+	debugOutput(opModeReg);
 	
 	if(opModeReg != (OP_MODE_LORA | OP_MODE_CAD)){
 		while(1){}
@@ -140,27 +141,30 @@ void setCADMode(){
 
 void transmit(u8 * msg, u16 msglen, u16 receiver){
 	
-	digitalWrite(RFM_SS, 0);
-	
 	u8 header[HDR_LEN];
 	memset(header, 0, HDR_LEN * sizeof(u8));
 	createHeader(receiver, msglen, header);
 	
 	//Set FIFO to address 0
-	
-	spiSend(RFM_SPI_READ | 0x00); //Send Address of FIFO
+	rfmSpiSend(REG_FIFO_ADDR_PTR, 0x00);
+
+	//spiSend(RFM_SPI_READ | REG_FIFO); //Send Address of FIFO
 	for(u16 i = 0; i < HDR_LEN; i++){
 		//Write Header to FIFO
-		spiSend(header[i]);
+		rfmSpiSend(REG_FIFO, header[i]);
+		//spiSend(header[i]);
 	}
 	
 	for(u16 i = 0; i < msglen; i++){
 		//Write Message to FIFO
-		spiSend(msg[i]);
+		rfmSpiSend(REG_FIFO, msg[i]);
+		//spiSend(msg[i]);
 	}
 	
 	//Set DIO config
 	rfmSpiSend(REG_DIO_MAPPING1, DIO0_MAPPING1);
+	
+	rfmSpiSend(REG_PAYLOAD_LENGTH, HDR_LEN + msglen);
 	
 	//Set TX Mode to on and wait for interrupt
 	setTXMode();
@@ -169,6 +173,19 @@ void transmit(u8 * msg, u16 msglen, u16 receiver){
 	while(!digitalRead(DIO0)){
 		
 	}
+}
+
+void receive(u8 * msgPtr){
 	
-	digitalWrite(RFM_SS, 1);
+}
+
+void debugOutput(u8 data){
+	digitalWrite(LEDs[0], (data & 0x01) >> 0);
+	digitalWrite(LEDs[1], (data & 0x02) >> 1);
+	digitalWrite(LEDs[2], (data & 0x04) >> 2);
+	digitalWrite(LEDs[3], (data & 0x08) >> 3);
+	digitalWrite(LEDs[4], (data & 0x10) >> 4);
+	digitalWrite(LEDs[5], (data & 0x20) >> 5);
+	digitalWrite(LEDs[6], (data & 0x40) >> 6);
+	digitalWrite(LEDs[7], (data & 0x80) >> 7);
 }

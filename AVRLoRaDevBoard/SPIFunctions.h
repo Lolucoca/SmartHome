@@ -10,6 +10,7 @@
 #define SPIFUNCTIONS_H_
 
 #include "Config.h"
+#include "GPIOFunctions.h"
 #include <avr/io.h>
 #include <util/delay.h>
 

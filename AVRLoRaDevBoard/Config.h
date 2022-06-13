@@ -16,8 +16,6 @@ typedef enum{TRANSMITTER, RECEIVER} TYPE;
 //typedef enum{45, 46, 47, 48} CODINGRATE;
 //typedef enum{64, 128, 256, 512, 1024, 2048, 4096} SPREADFACTOR;
 
-#define F_CPU 24000000
-
 #define NUM_LEDS 8
 #define NUM_GPIOS 16
 #define NUM_DIOS 6

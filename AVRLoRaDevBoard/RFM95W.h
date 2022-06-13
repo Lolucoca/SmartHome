@@ -18,10 +18,11 @@
 #define REG_OP_MODE 0x01
 //7: 0: FSK/OOK Mode, 1: LoRa Mode WICHTIG: KANN NUR IM SLEEP-MODUS GESCHRIEBEN WERDEN
 #define OP_MODE_FSK 0x00
-#define OP_MODE_LORA 0x10
+#define OP_MODE_LORA 0x80
 //6: 0: Konfigurationsregister sind für LoRa, 1: Konfigurationsregister sind für FSK/OOK WICHTIG: GEHT NUR IM LoRa-MODUS
 //5-4 : Reserviert
 //3: 0: High Frequency Mode, 1: Low Frequency Mode
+#define LF_MODE_ON 0x08
 //3-0 : 000 Sleep (SLEEP)
 //		001 Standby (STDBY)
 //		010 Frequency Synthesis TX (FSTX)
@@ -375,5 +376,6 @@ void setRXMode();
 void setCADMode();
 
 void transmit(u8 * msg, u16 msglen, u16 receiver);
+void receive(u8 * msgPtr);
 
 #endif /* RFM95W_H_ */

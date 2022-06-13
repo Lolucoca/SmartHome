@@ -9,7 +9,7 @@
 GPIO LED0, LED1, LED2, LED3, LED4, LED5, LED6, LED7;
 GPIO GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15;
 GPIO DIO0, DIO1, DIO2, DIO3, DIO4, DIO5;
-GPIO RFM_SS;
+GPIO RFM_SS, RFM_RST;
 
 GPIO LEDs[NUM_LEDS];
 GPIO GPIOs[NUM_GPIOS];
@@ -18,6 +18,16 @@ GPIO DIOs[NUM_DIOS];
 
 
 void initializeAVR(){
+	
+	//Disable the Clock prescaler
+	CLKCTRL_MCLKCTRLA = 0x00;
+	//Set the Clock prescaler register to 0 (no division)
+	CLKCTRL_MCLKCTRLB = 0x00;
+	//Disable Configuration Change Protection
+	CCP = 0xD8;
+	//Set the Internal Oscillator to 24MHz
+	CLKCTRL_OSCHFCTRLA = 0x26; 
+	
 	LED0 = (GPIO) {0b00000001, (volatile u8 *) &PORTA};
 	LED1 = (GPIO) {0b00000010, (volatile u8 *) &PORTA};
 	LED2 = (GPIO) {0b00000100, (volatile u8 *) &PORTA};
@@ -26,6 +36,8 @@ void initializeAVR(){
 	LED5 = (GPIO) {0b00100000, (volatile u8 *) &PORTA};
 	LED6 = (GPIO) {0b01000000, (volatile u8 *) &PORTA};
 	LED7 = (GPIO) {0b10000000, (volatile u8 *) &PORTA};
+		
+	RFM_RST = (GPIO) {0b00010000, (volatile u8 *) &PORTB};
 		
 	GPIO0 = (GPIO) {0b00000001, (volatile u8 *) &PORTC};
 	GPIO1 = (GPIO) {0b00000010, (volatile u8 *) &PORTC};
