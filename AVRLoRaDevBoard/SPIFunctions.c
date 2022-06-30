@@ -11,7 +11,7 @@ void initializeSPI(){
 	PORTMUX_SPIROUTEA = 0b00000001; //Set SPI0 to alternate position (PE0..4)
 	//PORTE_DIRSET = 0b00001101; //Set SS, SCK, MOSI to output
 	SPI0_CTRLA = 0b00100000; //Set to Master Mode and enable SPI with prescaler /4, do not enable yet
-	SPI0_CTRLB = 0b10000000; //Enable Buffered Mode. This avoids Write collisions.
+	SPI0_CTRLB = 0b10000000; //BUFEN
 	SPI0_INTCTRL = 0b11100000; //Enable RX/TX Complete interrupts as well as Data Register Empty Interrupt 00000001
 	SPI0_CTRLA |= 0b00000001; 
 

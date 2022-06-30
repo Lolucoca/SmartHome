@@ -12,6 +12,7 @@ Common symbol       size              file
 
 GPIO14              0x3               AVRFunctions.o
 GPIO4               0x3               AVRFunctions.o
+RESET               0x3               AVRFunctions.o
 GPIOs               0x30              AVRFunctions.o
 GPIO12              0x3               AVRFunctions.o
 GPIO1               0x3               AVRFunctions.o
@@ -30,6 +31,7 @@ DIO1                0x3               AVRFunctions.o
 DIO2                0x3               AVRFunctions.o
 LED7                0x3               AVRFunctions.o
 GPIO6               0x3               AVRFunctions.o
+currentMode         0x1               RFM95W.o
 GPIO13              0x3               AVRFunctions.o
 LED2                0x3               AVRFunctions.o
 GPIO9               0x3               AVRFunctions.o
@@ -67,15 +69,14 @@ Discarded input sections
  .text          0x00000000        0x0 RFM95W.o
  .data          0x00000000        0x0 RFM95W.o
  .bss           0x00000000        0x0 RFM95W.o
- .text.receive  0x00000000        0x2 RFM95W.o
  .text.setFSTXMode
-                0x00000000       0x22 RFM95W.o
+                0x00000000       0x26 RFM95W.o
  .text.setFSRXMode
-                0x00000000       0x22 RFM95W.o
+                0x00000000       0x26 RFM95W.o
  .text.setRXMode
-                0x00000000       0x22 RFM95W.o
+                0x00000000       0x38 RFM95W.o
  .text.setCADMode
-                0x00000000       0x22 RFM95W.o
+                0x00000000       0x26 RFM95W.o
  .text          0x00000000        0x0 SPIFunctions.o
  .data          0x00000000        0x0 SPIFunctions.o
  .bss           0x00000000        0x0 SPIFunctions.o
@@ -260,7 +261,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xa1e
+.text           0x00000000      0xcb2
  *(.vectors)
  .vectors       0x00000000       0xf4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/AVR-Dx_DFP/2.0.141/gcc/dev/avr64db48/avrxmega2/crtavr64db48.o
                 0x00000000                __vector_default
@@ -383,61 +384,75 @@ END GROUP
                 0x00000132                . = ALIGN (0x2)
  *(.text.*)
  .text.initializeAVR
-                0x00000132      0x3f0 AVRFunctions.o
+                0x00000132      0x41a AVRFunctions.o
                 0x00000132                initializeAVR
  .text.digitalWrite
-                0x00000522       0x14 GPIOFunctions.o
-                0x00000522                digitalWrite
+                0x0000054c       0x14 GPIOFunctions.o
+                0x0000054c                digitalWrite
  .text.initializeGPIO
-                0x00000536       0x3a GPIOFunctions.o
-                0x00000536                initializeGPIO
+                0x00000560       0x3a GPIOFunctions.o
+                0x00000560                initializeGPIO
  .text.digitalRead
-                0x00000570        0x8 GPIOFunctions.o
-                0x00000570                digitalRead
+                0x0000059a        0xa GPIOFunctions.o
+                0x0000059a                digitalRead
  .text.createHeader
-                0x00000578       0x10 LoRaFunctions.o
-                0x00000578                createHeader
- .text.main     0x00000588      0x102 main.o
-                0x00000588                main
+                0x000005a4       0x16 LoRaFunctions.o
+                0x000005a4                createHeader
+ .text.main     0x000005ba      0x15e main.o
+                0x000005ba                main
  .text.setPreambleLength
-                0x0000068a       0x18 RFM95W.o
-                0x0000068a                setPreambleLength
+                0x00000718       0x18 RFM95W.o
+                0x00000718                setPreambleLength
+ .text.handleRFMInterrupts
+                0x00000730       0x64 RFM95W.o
+                0x00000730                handleRFMInterrupts
  .text.debugOutput
-                0x000006a2       0xf0 RFM95W.o
-                0x000006a2                debugOutput
+                0x00000794       0xf0 RFM95W.o
+                0x00000794                debugOutput
  .text.setSleepMode
-                0x00000792       0x22 RFM95W.o
-                0x00000792                setSleepMode
+                0x00000884       0x24 RFM95W.o
+                0x00000884                setSleepMode
  .text.setStdbyMode
-                0x000007b4       0x22 RFM95W.o
-                0x000007b4                setStdbyMode
+                0x000008a8       0x26 RFM95W.o
+                0x000008a8                setStdbyMode
  .text.initializeLoRa
-                0x000007d6       0x5a RFM95W.o
-                0x000007d6                initializeLoRa
+                0x000008ce       0x5a RFM95W.o
+                0x000008ce                initializeLoRa
+ .text.stopReceiver
+                0x00000928       0x16 RFM95W.o
+                0x00000928                stopReceiver
  .text.setTXMode
-                0x00000830       0x16 RFM95W.o
-                0x00000830                setTXMode
+                0x0000093e       0x1a RFM95W.o
+                0x0000093e                setTXMode
  .text.transmit
-                0x00000846       0xc0 RFM95W.o
-                0x00000846                transmit
+                0x00000958       0xb4 RFM95W.o
+                0x00000958                transmit
+ .text.setRXContinuousMode
+                0x00000a0c       0x38 RFM95W.o
+                0x00000a0c                setRXContinuousMode
+ .text.startReceiver
+                0x00000a44       0x1a RFM95W.o
+                0x00000a44                startReceiver
+ .text.receive  0x00000a5e      0x13c RFM95W.o
+                0x00000a5e                receive
  .text.initializeSPI
-                0x00000906       0x2e SPIFunctions.o
-                0x00000906                initializeSPI
- .text.spiRecv  0x00000934       0x30 SPIFunctions.o
-                0x00000934                spiRecv
- .text.spiSend  0x00000964       0x1c SPIFunctions.o
-                0x00000964                spiSend
+                0x00000b9a       0x2e SPIFunctions.o
+                0x00000b9a                initializeSPI
+ .text.spiRecv  0x00000bc8       0x30 SPIFunctions.o
+                0x00000bc8                spiRecv
+ .text.spiSend  0x00000bf8       0x1c SPIFunctions.o
+                0x00000bf8                spiSend
  .text.rfmSpiRecv
-                0x00000980       0x48 SPIFunctions.o
-                0x00000980                rfmSpiRecv
+                0x00000c14       0x48 SPIFunctions.o
+                0x00000c14                rfmSpiRecv
  .text.rfmSpiSend
-                0x000009c8       0x52 SPIFunctions.o
-                0x000009c8                rfmSpiSend
-                0x00000a1a                . = ALIGN (0x2)
+                0x00000c5c       0x52 SPIFunctions.o
+                0x00000c5c                rfmSpiSend
+                0x00000cae                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000a1a        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
-                0x00000a1a                _exit
-                0x00000a1a                exit
+ .fini9         0x00000cae        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
+                0x00000cae                _exit
+                0x00000cae                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -456,11 +471,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000a1a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
+ .fini0         0x00000cae        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000a1e                _etext = .
+                0x00000cb2                _etext = .
 
-.data           0x00806000        0x8 load address 0x00000a1e
+.data           0x00806000        0x8 load address 0x00000cb2
                 0x00806000                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -473,56 +488,59 @@ END GROUP
                 0x00806008                _edata = .
                 0x00806008                PROVIDE (__data_end, .)
 
-.bss            0x00806008       0xba
+.bss            0x00806008       0xbe
                 0x00806008                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
- COMMON         0x00806008       0xba AVRFunctions.o
+ COMMON         0x00806008       0xbd AVRFunctions.o
                 0x00806008                GPIO14
                 0x0080600b                GPIO4
-                0x0080600e                GPIOs
-                0x0080603e                GPIO12
-                0x00806041                GPIO1
-                0x00806044                LED6
-                0x00806047                DIO0
-                0x0080604a                DIO5
-                0x0080604d                GPIO3
-                0x00806050                LED1
-                0x00806053                LEDs
-                0x0080606b                DIOs
-                0x0080607d                LED3
-                0x00806080                GPIO11
-                0x00806083                RFM_RST
-                0x00806086                GPIO0
-                0x00806089                DIO1
-                0x0080608c                DIO2
-                0x0080608f                LED7
-                0x00806092                GPIO6
-                0x00806095                GPIO13
-                0x00806098                LED2
-                0x0080609b                GPIO9
-                0x0080609e                RFM_SS
-                0x008060a1                GPIO15
-                0x008060a4                GPIO10
-                0x008060a7                LED5
-                0x008060aa                DIO4
-                0x008060ad                GPIO2
-                0x008060b0                GPIO7
-                0x008060b3                LED4
-                0x008060b6                GPIO8
-                0x008060b9                LED0
-                0x008060bc                GPIO5
-                0x008060bf                DIO3
-                0x008060c2                PROVIDE (__bss_end, .)
-                0x00000a1e                __data_load_start = LOADADDR (.data)
-                0x00000a26                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0080600e                RESET
+                0x00806011                GPIOs
+                0x00806041                GPIO12
+                0x00806044                GPIO1
+                0x00806047                LED6
+                0x0080604a                DIO0
+                0x0080604d                DIO5
+                0x00806050                GPIO3
+                0x00806053                LED1
+                0x00806056                LEDs
+                0x0080606e                DIOs
+                0x00806080                LED3
+                0x00806083                GPIO11
+                0x00806086                RFM_RST
+                0x00806089                GPIO0
+                0x0080608c                DIO1
+                0x0080608f                DIO2
+                0x00806092                LED7
+                0x00806095                GPIO6
+                0x00806098                GPIO13
+                0x0080609b                LED2
+                0x0080609e                GPIO9
+                0x008060a1                RFM_SS
+                0x008060a4                GPIO15
+                0x008060a7                GPIO10
+                0x008060aa                LED5
+                0x008060ad                DIO4
+                0x008060b0                GPIO2
+                0x008060b3                GPIO7
+                0x008060b6                LED4
+                0x008060b9                GPIO8
+                0x008060bc                LED0
+                0x008060bf                GPIO5
+                0x008060c2                DIO3
+ COMMON         0x008060c5        0x1 RFM95W.o
+                0x008060c5                currentMode
+                0x008060c6                PROVIDE (__bss_end, .)
+                0x00000cb2                __data_load_start = LOADADDR (.data)
+                0x00000cba                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008060c2        0x0
+.noinit         0x008060c6        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008060c2                _end = .
+                0x008060c6                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -592,7 +610,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x148
+.debug_aranges  0x00000000      0x168
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 AVRFunctions.o
@@ -603,73 +621,75 @@ END GROUP
  .debug_aranges
                 0x00000070       0x20 main.o
  .debug_aranges
-                0x00000090       0x78 RFM95W.o
+                0x00000090       0x98 RFM95W.o
  .debug_aranges
-                0x00000108       0x40 SPIFunctions.o
+                0x00000128       0x40 SPIFunctions.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x46e4
+.debug_info     0x00000000     0x4bef
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x2f42 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/AVR-Dx_DFP/2.0.141/gcc/dev/avr64db48/avrxmega2/crtavr64db48.o
- .debug_info    0x00002f42      0x570 AVRFunctions.o
- .debug_info    0x000034b2      0x19f GPIOFunctions.o
- .debug_info    0x00003651      0x125 LoRaFunctions.o
- .debug_info    0x00003776      0x399 main.o
- .debug_info    0x00003b0f      0x813 RFM95W.o
- .debug_info    0x00004322      0x3c2 SPIFunctions.o
+ .debug_info    0x00002f42      0x582 AVRFunctions.o
+ .debug_info    0x000034c4      0x1a1 GPIOFunctions.o
+ .debug_info    0x00003665      0x122 LoRaFunctions.o
+ .debug_info    0x00003787      0x470 main.o
+ .debug_info    0x00003bf7      0xc36 RFM95W.o
+ .debug_info    0x0000482d      0x3c2 SPIFunctions.o
 
-.debug_abbrev   0x00000000     0x3608
+.debug_abbrev   0x00000000     0x3722
  *(.debug_abbrev)
  .debug_abbrev  0x00000000     0x2cc2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/AVR-Dx_DFP/2.0.141/gcc/dev/avr64db48/avrxmega2/crtavr64db48.o
  .debug_abbrev  0x00002cc2      0x10c AVRFunctions.o
  .debug_abbrev  0x00002dce      0x13c GPIOFunctions.o
- .debug_abbrev  0x00002f0a       0xc0 LoRaFunctions.o
- .debug_abbrev  0x00002fca      0x1e4 main.o
- .debug_abbrev  0x000031ae      0x203 RFM95W.o
- .debug_abbrev  0x000033b1      0x257 SPIFunctions.o
+ .debug_abbrev  0x00002f0a       0xcf LoRaFunctions.o
+ .debug_abbrev  0x00002fd9      0x1fb main.o
+ .debug_abbrev  0x000031d4      0x2f7 RFM95W.o
+ .debug_abbrev  0x000034cb      0x257 SPIFunctions.o
 
-.debug_line     0x00000000      0xf88
+.debug_line     0x00000000     0x11de
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x205 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/AVR-Dx_DFP/2.0.141/gcc/dev/avr64db48/avrxmega2/crtavr64db48.o
- .debug_line    0x00000205      0x2be AVRFunctions.o
- .debug_line    0x000004c3      0x143 GPIOFunctions.o
- .debug_line    0x00000606       0xe2 LoRaFunctions.o
- .debug_line    0x000006e8      0x22d main.o
- .debug_line    0x00000915      0x38e RFM95W.o
- .debug_line    0x00000ca3      0x2e5 SPIFunctions.o
+ .debug_line    0x00000205      0x2c4 AVRFunctions.o
+ .debug_line    0x000004c9      0x143 GPIOFunctions.o
+ .debug_line    0x0000060c      0x100 LoRaFunctions.o
+ .debug_line    0x0000070c      0x218 main.o
+ .debug_line    0x00000924      0x5d5 RFM95W.o
+ .debug_line    0x00000ef9      0x2e5 SPIFunctions.o
 
-.debug_frame    0x00000000      0x288
+.debug_frame    0x00000000      0x304
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 AVRFunctions.o
  .debug_frame   0x00000024       0x44 GPIOFunctions.o
  .debug_frame   0x00000068       0x24 LoRaFunctions.o
- .debug_frame   0x0000008c       0x34 main.o
- .debug_frame   0x000000c0      0x14c RFM95W.o
- .debug_frame   0x0000020c       0x7c SPIFunctions.o
+ .debug_frame   0x0000008c       0x38 main.o
+ .debug_frame   0x000000c4      0x1c4 RFM95W.o
+ .debug_frame   0x00000288       0x7c SPIFunctions.o
 
-.debug_str      0x00000000     0x1a36
+.debug_str      0x00000000     0x1b2b
  *(.debug_str)
  .debug_str     0x00000000     0x14f0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/AVR-Dx_DFP/2.0.141/gcc/dev/avr64db48/avrxmega2/crtavr64db48.o
- .debug_str     0x000014f0      0x31d AVRFunctions.o
-                                0x35b (size before relaxing)
- .debug_str     0x0000180d       0x4c GPIOFunctions.o
-                                0x1de (size before relaxing)
- .debug_str     0x00001859       0x3c LoRaFunctions.o
-                                0x1bc (size before relaxing)
- .debug_str     0x00001895       0x8a main.o
-                                0x24a (size before relaxing)
- .debug_str     0x0000191f       0xbf RFM95W.o
-                                0x2aa (size before relaxing)
- .debug_str     0x000019de       0x58 SPIFunctions.o
-                                0x28a (size before relaxing)
+ .debug_str     0x000014f0      0x326 AVRFunctions.o
+                                0x364 (size before relaxing)
+ .debug_str     0x00001816       0x4c GPIOFunctions.o
+                                0x1e1 (size before relaxing)
+ .debug_str     0x00001862       0x3c LoRaFunctions.o
+                                0x1bf (size before relaxing)
+ .debug_str     0x0000189e      0x133 main.o
+                                0x308 (size before relaxing)
+ .debug_str     0x000019d1      0x102 RFM95W.o
+                                0x3eb (size before relaxing)
+ .debug_str     0x00001ad3       0x58 SPIFunctions.o
+                                0x28d (size before relaxing)
 
-.debug_loc      0x00000000      0x6da
+.debug_loc      0x00000000      0x8da
  *(.debug_loc)
- .debug_loc     0x00000000      0x186 main.o
- .debug_loc     0x00000186      0x3b6 RFM95W.o
- .debug_loc     0x0000053c      0x19e SPIFunctions.o
+ .debug_loc     0x00000000       0x23 GPIOFunctions.o
+ .debug_loc     0x00000023       0x26 LoRaFunctions.o
+ .debug_loc     0x00000049       0xf7 main.o
+ .debug_loc     0x00000140      0x5fc RFM95W.o
+ .debug_loc     0x0000073c      0x19e SPIFunctions.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -689,14 +709,14 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xe8
+.debug_ranges   0x00000000      0x108
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x10 AVRFunctions.o
  .debug_ranges  0x00000010       0x20 GPIOFunctions.o
  .debug_ranges  0x00000030       0x10 LoRaFunctions.o
  .debug_ranges  0x00000040       0x10 main.o
- .debug_ranges  0x00000050       0x68 RFM95W.o
- .debug_ranges  0x000000b8       0x30 SPIFunctions.o
+ .debug_ranges  0x00000050       0x88 RFM95W.o
+ .debug_ranges  0x000000d8       0x30 SPIFunctions.o
 
 .debug_macro
  *(.debug_macro)

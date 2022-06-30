@@ -13,6 +13,7 @@
 #include "LoRaFunctions.h"
 #include "SPIFunctions.h"
 #include "GPIOFunctions.h"
+#include "Config.h"
 
 #define REG_FIFO 0x00
 #define REG_OP_MODE 0x01
@@ -357,12 +358,16 @@
 
 //#define FRF (u32) ((u32) RF_FREQ / (u32) OSC_FREQ) * (1 << 19)
 
-#define PA_DAC ((RFHIPWR && (OUTPUTPOWER == 15)) ? 0x07 : 0x04)
+#define PA_DAC RFHIPWR ? 0x07 : 0x04 //((RFHIPWR && (OUTPUTPOWER == 15)) ? 0x07 : 0x04)
 
 //PA Select always to PA_BOOST, set Max Power to the maximum value allowed (0x07)
-#define PA_CONFIG ( 0b11110000 | (15-OUTPUTPOWER))
+#define PA_CONFIG (0b11110000 | (15-OUTPUTPOWER))
 
+typedef enum mode{sleep, stdby, fstx, tx, fsrx, rx, rxcontinuous, cad} Mode;
+typedef enum rfmInterrupt{none, txdone, rxdone, rxtimeout} RFMInterrupt; 
 
+	
+extern Mode currentMode; 
 
 
 void initializeLoRa();
@@ -373,9 +378,17 @@ void setFSTXMode();
 void setTXMode();
 void setFSRXMode();
 void setRXMode();
+void setRXContinuousMode();
 void setCADMode();
 
+void debugOutput(u8 data);
+
+RFMInterrupt handleRFMInterrupts();
+
+void startReceiver();
+void stopReceiver();
+
 void transmit(u8 * msg, u16 msglen, u16 receiver);
-void receive(u8 * msgPtr);
+void receive(Message * msg);
 
 #endif /* RFM95W_H_ */

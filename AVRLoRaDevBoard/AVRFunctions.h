@@ -50,6 +50,8 @@ extern GPIO DIO0, DIO1, DIO2, DIO3, DIO4, DIO5;
 
 extern GPIO RFM_SS, RFM_RST;
 
+extern GPIO RESET; 
+
 extern GPIO LEDs[];
 extern GPIO GPIOs[];
 extern GPIO DIOs[];

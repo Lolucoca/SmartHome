@@ -10,6 +10,7 @@ GPIO LED0, LED1, LED2, LED3, LED4, LED5, LED6, LED7;
 GPIO GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8, GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14, GPIO15;
 GPIO DIO0, DIO1, DIO2, DIO3, DIO4, DIO5;
 GPIO RFM_SS, RFM_RST;
+GPIO RESET;
 
 GPIO LEDs[NUM_LEDS];
 GPIO GPIOs[NUM_GPIOS];
@@ -27,6 +28,7 @@ void initializeAVR(){
 	CCP = 0xD8;
 	//Set the Internal Oscillator to 24MHz
 	CLKCTRL_OSCHFCTRLA = 0x26; 
+	
 	
 	LED0 = (GPIO) {0b00000001, (volatile u8 *) &PORTA};
 	LED1 = (GPIO) {0b00000010, (volatile u8 *) &PORTA};
@@ -65,6 +67,8 @@ void initializeAVR(){
 	DIO3 = (GPIO) {0b00001000, (volatile u8 *) &PORTF};
 	DIO4 = (GPIO) {0b00010000, (volatile u8 *) &PORTF};
 	DIO5 = (GPIO) {0b00100000, (volatile u8 *) &PORTF};
+		
+	RESET = (GPIO) {0b01000000, (volatile u8 *) &PORTF};
 		
 		
 	LEDs[0] = LED0;

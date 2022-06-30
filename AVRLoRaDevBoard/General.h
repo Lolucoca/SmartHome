@@ -9,6 +9,9 @@
 #ifndef GENERAL_H_
 #define GENERAL_H_
 
+
+#define F_CPU 24000000UL
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

@@ -41,6 +41,6 @@ void digitalWrite(GPIO pin, u8 value){
 }
 
 u8 digitalRead(GPIO pin){
-	u8 bankData = *(pin.port + IN_OFFSET);
+	u8 bankData = *(pin.port + IN_OFFSET) & pin.pin;
 	return bankData;
 }
